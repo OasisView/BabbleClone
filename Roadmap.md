@@ -1,64 +1,78 @@
-This revised roadmap shifts the focus to your unique **"Cognitive Deciphering"** goal. The primary challenge for this 3.5-day sprint is ensuring the frontend's timing logic and the backend's data delivery are perfectly synced for that "Introductory Module."
+To build the **"Cognitive Deciphering"** engine within your aggressive 3.5-day timeline, your tech stack must prioritize **asynchronous timing**, **media delivery speed**, and **unified data types**.
 
-### **Revised "LingoVision" Sprint Roadmap**
-
----
-
-#### **Phase 1: The Immersive Foundation (Sunday: 10 am – 6 pm)**
-
-*Goal: Build the "Decipher" engine (No translation yet).*
-
-* **10:00 am \- 1:00 pm:**  
-  * **Michael (FE):** Component scaffolding. Create the `ImmersiveCard` state machine: `HIDDEN` → `INPUT_ONLY` (Img+Aud) → `DECODED` (Target Text Reveal).  
-  * **Manuel (BE):** API Infrastructure. Build the `Unit` model that can hold a specific flag for `isIntroductory`.  
-* **2:00 pm \- 6:00 pm (After Break):**  
-  * **Michael:** Implement the 2-second "Thinking Gap." Add a high-quality CSS fade-in for the target text to reward the user's decoding effort.  
-  * **Manuel:** Asset Pipeline. Upload 10-15 high-res images and clear audio clips for "Unit 1" to a cloud host. Create the JSON response.  
-  * **Sync Point:** Verify that the first unit loads *only* in the target language.
+Based on your updated roadmap, here is the optimized "LingoVision" tech stack.
 
 ---
 
-#### **Phase 2: The "Babbel Bridge" (Monday: 6:30 pm – 10 pm)**
+## **🛠️ Unified "LingoVision" Stack (2026)**
 
-*Goal: Transition from pure immersion to bilingual reinforcement.*
+### **Frontend (Michael)**
 
-* **6:30 pm \- 8:30 pm:**  
-  * **Michael:** Build the `DrillCard`. This version shows Target Text immediately but hides the **English Translation** behind a "Peek" button or a second timer.  
-  * **Manuel:** Update the database to include an `english_hint` field for every card.  
-* **8:30 pm \- 10:00 pm:**  
-  * **Integration:** Logic check—ensure the app starts with `ImmersiveCard` for the first 5 words of a unit, then switches to `DrillCard` for reinforcement.
+**Focus:** The "Thinking Gap" Logic & Visual-First UX
 
----
+* **Framework:** **Next.js 15+ (App Router)**  
+  * *Why:* Next.js 15’s "Client Island" architecture is perfect for isolating the high-interactivity ImmersiveCard. It allows for instant loading of the image while the audio and text "hydration" happens in the background.  
+* **Styling & Animation:** **Tailwind CSS \+ Framer Motion**  
+  * *Why:* Use Tailwind for layout speed. Use **Framer Motion** for the "Decoded" reveal. Its animate={{ opacity: 1 }} with a delay: 2.0 is the cleanest way to implement the "Thinking Gap" without messy setTimeout chains.  
+* **State Management:** **Zustand**  
+  * *Why:* You need a global lessonStore to track currentStep (Decipher vs. Drill) and isDecoded. Zustand is 10x faster to set up than Redux for a 3-day sprint.  
+* **Audio Engine:** **Howler.js**  
+  * *Why:* Standard HTML5 audio can be finicky with timing. Howler provides a reliable .play() method that works across mobile browsers once "unlocked" by your Splash Screen.
 
-#### **Phase 3: Logic & Concept (Tuesday: 6:30 pm – 10 pm)**
+### **Backend (Manuel)**
 
-*Goal: Add the "Linguistic Concept" screens.*
+**Focus:** Asset Delivery & "Agentic-Ready" Data
 
-* **6:30 pm \- 8:30 pm:**  
-  * **Michael:** Create the `ConceptCard` UI. This is for the "Unit Summary" where users see the grammar rule they just "decoded" (e.g., "You noticed 'La'—that's for feminine nouns\!").  
-  * **Manuel:** Create the `Concept` data object. Add 2 more units (Unit 2 and Unit 3\) to the DB to ensure the "Next Unit" flow works.  
-* **8:30 pm \- 10:00 pm:**  
-  * **Michael:** Add the "Start Session" splash screen to handle the browser's "User must click to play audio" requirement.
-
----
-
-#### **Phase 4: Deployment & Polish (Wednesday: 6:30 pm – 10 pm)**
-
-*Goal: Launch and verify the "Decipher" feel.*
-
-* **6:30 pm \- 8:30 pm:**  
-  * **Both:** Deploy to Vercel (FE) and Render (BE).  
-  * **Michael:** Mobile Responsiveness. Ensure the image is big enough on a phone for the user to "decode" the meaning.  
-* **8:30 pm \- 10:00 pm:**  
-  * **Final QA:** Test the 2-second delay. Is it too fast? Too slow? Tune the "Association" timing for maximum learning impact.
+* **Platform:** **Supabase (PostgreSQL)**  
+  * *Why:* **Speed.** You get a database, instant REST APIs, and Auth (for Phase 5\) with zero boilerplate. Manuel can define the Units table in the UI and Michael can fetch from it immediately.  
+* **Media Hosting:** **Cloudinary (AI-Optimized)**  
+  * *Why:* Cloudinary’s "Auto-format" (f\_auto) and "Auto-quality" (q\_auto) are essential. It ensures the high-res images needed for "Visual-First" decoding load instantly, even on weak mobile connections.  
+* **Server Logic:** **Next.js Route Handlers (Edge Runtime)**  
+  * *Why:* Since you're already using Next.js, Manuel can write "Backend" logic directly in /app/api. Using the **Edge Runtime** ensures \<10ms latency for fetching the next card.
 
 ---
 
-### **Sprint Architecture Diagram**
+## **🏗️ The "Association" Data Model**
 
-This shows how the frontend will "wait" for the brain to decode before showing the text.
+To ensure Michael and Manuel stay in sync, use this shared JSON structure for your cards:
 
-### **Technical "Association" Tip for Michael**
+TypeScript
 
-When building the "Introductory" cards, use a **Canvas-based** or **Blurred** placeholder for the text area. This signals to the user that text *is* coming, which reduces the anxiety of not understanding the audio immediately.
+```
+
+type LingoCard = {
+  id: string;
+  type: 'immersive' | 'drill' | 'concept';
+  visual_url: string;      // Cloudinary URL
+  audio_url: string;       // Cloudinary URL
+  target_text: string;     // Revealed after 2s
+  english_bridge?: string; // Revealed on 'Peek' (Drill only)
+  grammar_note?: string;   // For ConceptCard
+}
+
+```
+
+---
+
+## **📊 Tech Comparison Table**
+
+| Component | Choice (Speed) | Alternative (Control) | Why for LingoVision? |
+| :---- | :---- | :---- | :---- |
+| **Frontend** | **Next.js 15** | Vite \+ React | Best-in-class media optimization. |
+| **Styling** | **Tailwind** | CSS Modules | Zero-config "Thinking Gap" animations. |
+| **Database** | **Supabase** | MongoDB Atlas | Instant API generation (Manuel saves 4 hours). |
+| **Media** | **Cloudinary** | AWS S3 | Automatic image resizing for mobile "decoding." |
+| **Deployment** | **Vercel** | AWS | Git-push to deploy ensures Wednesday launch. |
+
+---
+
+### **💡 Pro-Tip for Michael: The "Autoplay" Unlock**
+
+Browsers will block your 2-second audio reveal unless the user interacts first.
+
+1. Create a **"Start Unit"** button on the splash screen.  
+2. On click, initialize a "Silent" Howler instance: new Howl({ src: \['silent.mp3'\] }).play();.  
+3. This **"unlocks"** the audio context, allowing all subsequent cards in that unit to play audio automatically and perfectly timed with your image reveal.
+
+**Would you like me to generate the Supabase Schema for Manuel so he can set up the database in 5 minutes?**
 
