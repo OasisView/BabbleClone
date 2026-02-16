@@ -6,6 +6,8 @@ interface CardData {
   english: string
   spanish: string
   image: string
+  sentence?: string
+  situationImage?: string
   pronunciation: string
 }
 
@@ -15,6 +17,8 @@ const LESSON_DATA: CardData[] = [
     english: 'Apple',
     spanish: 'Manzana',
     image: '/images/apple.svg',
+    situationImage: '/images/apple.svg',
+    sentence: 'Ella come una manzana en el parque.',
     pronunciation: 'mahn-SAH-nah',
   },
   {
@@ -22,6 +26,8 @@ const LESSON_DATA: CardData[] = [
     english: 'Cat',
     spanish: 'Gato',
     image: '/images/cat.svg',
+    situationImage: '/images/cat.svg',
+    sentence: 'El gato duerme sobre el sofá.',
     pronunciation: 'GAH-toh',
   },
   {
@@ -29,6 +35,7 @@ const LESSON_DATA: CardData[] = [
     english: 'Book',
     spanish: 'Libro',
     image: '/images/book.svg',
+    sentence: 'Leo un libro interesante antes de dormir.',
     pronunciation: 'LEE-broh',
   },
   {
@@ -36,6 +43,7 @@ const LESSON_DATA: CardData[] = [
     english: 'House',
     spanish: 'Casa',
     image: '/images/house.svg',
+    sentence: 'Nuestra casa tiene un jardín pequeño.',
     pronunciation: 'KAH-sah',
   },
   {
@@ -43,6 +51,7 @@ const LESSON_DATA: CardData[] = [
     english: 'Water',
     spanish: 'Agua',
     image: '/images/water.svg',
+    sentence: 'Bebo agua después de correr.',
     pronunciation: 'AH-gwah',
   },
   {
@@ -50,6 +59,7 @@ const LESSON_DATA: CardData[] = [
     english: 'Flower',
     spanish: 'Flor',
     image: '/images/flower.svg',
+    sentence: 'La flor huele muy bien en el jardín.',
     pronunciation: 'FLOHR',
   },
   {
@@ -57,6 +67,7 @@ const LESSON_DATA: CardData[] = [
     english: 'Sun',
     spanish: 'Sol',
     image: '/images/sun.svg',
+    sentence: 'El sol brilla en un día de verano.',
     pronunciation: 'SOHL',
   },
   {
@@ -64,6 +75,7 @@ const LESSON_DATA: CardData[] = [
     english: 'Tree',
     spanish: 'Árbol',
     image: '/images/tree.svg',
+    sentence: 'Nos sentamos bajo el árbol cuando hace calor.',
     pronunciation: 'AHR-bohl',
   },
   {
@@ -71,6 +83,7 @@ const LESSON_DATA: CardData[] = [
     english: 'Dog',
     spanish: 'Perro',
     image: '/images/dog.svg',
+    sentence: 'El perro corre feliz por la playa.',
     pronunciation: 'PEH-rroh',
   },
   {
@@ -78,6 +91,7 @@ const LESSON_DATA: CardData[] = [
     english: 'Bread',
     spanish: 'Pan',
     image: '/images/bread.svg',
+    sentence: 'Compré pan fresco en la panadería.',
     pronunciation: 'PAHN',
   },
 ]

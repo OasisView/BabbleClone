@@ -5,8 +5,11 @@ interface CardData {
   english: string
   spanish: string
   image: string
+  sentence?: string
+  situationImage?: string
   pronunciation: string
 }
+
 
 interface ImmersiveCardProps {
   card: CardData
@@ -24,30 +27,39 @@ export default function ImmersiveCard({
   totalCards,
 }: ImmersiveCardProps) {
   const [isTextRevealed, setIsTextRevealed] = useState(false)
-  const [audioPlayed, setAudioPlayed] = useState(false)
 
-  // Trigger text reveal after 2 seconds
+  // Timers: speak word immediately, speak again after 20s, reveal text after 30s
   useEffect(() => {
-    const timer = setTimeout(() => {
+    let playAgainTimer: ReturnType<typeof setTimeout> | null = null
+    let revealTimer: ReturnType<typeof setTimeout> | null = null
+
+    // Reset state for new card
+    setIsTextRevealed(false)
+
+    // speak immediately (word)
+    playAudio(card.spanish)
+
+    // speak again after 20s
+    playAgainTimer = setTimeout(() => {
+      playAudio(card.spanish)
+    }, 20000)
+
+    // reveal after 30s (20s + 10s)
+    revealTimer = setTimeout(() => {
       setIsTextRevealed(true)
-    }, 2000)
+    }, 30000)
 
-    return () => clearTimeout(timer)
-  }, [card.id])
-
-  // Play audio on card mount
-  useEffect(() => {
-    if (!audioPlayed) {
-      playAudio()
-      setAudioPlayed(true)
+    return () => {
+      if (playAgainTimer) clearTimeout(playAgainTimer)
+      if (revealTimer) clearTimeout(revealTimer)
     }
   }, [card.id])
 
-  const playAudio = () => {
-    // Create a speech synthesis instance for the Spanish word
-    const utterance = new SpeechSynthesisUtterance(card.spanish)
+  const playAudio = (text?: string) => {
+    const toSpeak = text || card.spanish
+    const utterance = new SpeechSynthesisUtterance(toSpeak)
     utterance.lang = 'es-ES'
-    utterance.rate = 0.8 // Slow down for clarity
+    utterance.rate = 0.95 // comfortable pace
     speechSynthesis.speak(utterance)
   }
 
@@ -78,6 +90,13 @@ export default function ImmersiveCard({
         />
       </div>
 
+      {/* Optional situational image */}
+      {card.situationImage && (
+        <div className="w-full flex items-center justify-center mt-4">
+          <img src={card.situationImage} alt="situation" className="w-40 h-24 object-cover rounded-lg shadow-sm" />
+        </div>
+      )}
+
       {/* Audio replay button - Babbel style */}
       <button
         onClick={handleReplayAudio}
@@ -105,9 +124,10 @@ export default function ImmersiveCard({
           }`}
         >
           <p className="text-5xl font-bold text-orange-600 mb-2">{card.spanish}</p>
-          <p className="text-gray-500 text-base">
-            {card.pronunciation}
-          </p>
+          <p className="text-gray-500 text-base mb-2">{card.pronunciation}</p>
+          {card.sentence && (
+            <p className="text-gray-700 text-lg mt-2 italic">{card.sentence}</p>
+          )}
         </div>
       </div>
 
