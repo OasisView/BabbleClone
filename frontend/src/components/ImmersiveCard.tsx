@@ -28,7 +28,7 @@ export default function ImmersiveCard({
 }: ImmersiveCardProps) {
   const [isTextRevealed, setIsTextRevealed] = useState(false)
 
-  // Timers: speak word immediately, speak again after 20s, reveal text after 30s
+  // Timers: speak word immediately, speak again after 10s, reveal text after 15s
   useEffect(() => {
     let playAgainTimer: ReturnType<typeof setTimeout> | null = null
     let revealTimer: ReturnType<typeof setTimeout> | null = null
@@ -39,15 +39,15 @@ export default function ImmersiveCard({
     // speak immediately (prefer sentence when available)
     playAudio(card.sentence || card.spanish)
 
-    // speak again after 20s
+    // speak again after 5s
     playAgainTimer = setTimeout(() => {
       playAudio(card.sentence || card.spanish)
-    }, 20000)
+    }, 5000)
 
-    // reveal after 30s (20s + 10s)
+    // reveal after 11.25s (50% longer than before)
     revealTimer = setTimeout(() => {
       setIsTextRevealed(true)
-    }, 30000)
+    }, 11250)
 
     return () => {
       if (playAgainTimer) clearTimeout(playAgainTimer)
@@ -67,6 +67,8 @@ export default function ImmersiveCard({
     playAudio()
   }
 
+  const mainImageSrc = card.situationImage || card.image
+
   return (
     <div className="flex flex-col items-center justify-center gap-6 w-full max-w-2xl mx-auto px-4">
       {/* Progress indicator */}
@@ -80,7 +82,7 @@ export default function ImmersiveCard({
       {/* Image section with rounded corners */}
       <div className="relative w-full h-96 flex items-center justify-center bg-gradient-to-br from-gray-50 to-gray-100 rounded-2xl overflow-hidden shadow-sm">
         <img
-          src={card.image}
+          src={mainImageSrc}
           alt={card.english}
           className="w-full h-full object-contain p-8"
           onError={(e) => {
@@ -89,13 +91,6 @@ export default function ImmersiveCard({
           }}
         />
       </div>
-
-      {/* Optional situational image */}
-      {card.situationImage && (
-        <div className="w-full flex items-center justify-center mt-4">
-          <img src={card.situationImage} alt="situation" className="w-40 h-24 object-cover rounded-lg shadow-sm" />
-        </div>
-      )}
 
       {/* Audio replay button - Babbel style */}
       <button
