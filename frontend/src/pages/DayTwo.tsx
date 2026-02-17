@@ -1,122 +1,34 @@
 import React, { useState } from 'react'
+
+import { useLessonStore } from '../store/lessonStore'
+import { LingoCard } from '../types/LingoCard'
 import ImmersiveCard from '../components/ImmersiveCard'
 
-interface CardData {
-  id: string
-  english: string
-  spanish: string
-  image: string
-  sentence?: string
-  situationImage?: string
-  pronunciation: string
-}
-
-const LESSON_DATA: CardData[] = [
-  {
-    id: '1',
-    english: 'Apple',
-    spanish: 'Manzana',
-    image: '/images/apple.svg',
-    situationImage: '/images/GirlApple.png',
-    sentence: 'Ella come una manzana en el parque.',
-    pronunciation: 'mahn-SAH-nah',
-  },
-  {
-    id: '2',
-    english: 'Cat',
-    spanish: 'Gato',
-    image: '/images/cat.svg',
-    situationImage: '/images/CatSleeping.jpg',
-    sentence: 'El gato duerme sobre el sofá.',
-    pronunciation: 'GAH-toh',
-  },
-  {
-    id: '3',
-    english: 'Book',
-    spanish: 'Libro',
-    image: '/images/book.svg',
-      situationImage: '/images/reading-in-bed.jpg',
-    sentence: 'Leo un libro interesante antes de dormir.',
-    pronunciation: 'LEE-broh',
-  },
-  {
-    id: '4',
-    english: 'House',
-    spanish: 'Casa',
-    image: '/images/house.svg',
-    situationImage: '/images/House_with_small_garden.jpg',
-    sentence: 'Nuestra casa tiene un jardín pequeño.',
-    pronunciation: 'KAH-sah',
-  },
-  {
-    id: '5',
-    english: 'Water',
-    spanish: 'Agua',
-    image: '/images/water.svg',
-      situationImage: '/images/WaterAfterRun.jpg',
-    sentence: 'Bebo agua después de correr.',
-    pronunciation: 'AH-gwah',
-  },
-  {
-    id: '6',
-    english: 'Flower',
-    spanish: 'Flor',
-    image: '/images/flower.svg',
-      situationImage: '/images/child-smelling-flowers-in-the-garden.jpg',
-    sentence: 'La flor huele muy bien en el jardín.',
-    pronunciation: 'FLOHR',
-  },
-  {
-    id: '7',
-    english: 'Sun',
-    spanish: 'Sol',
-    image: '/images/sun.svg',
-      situationImage: '/images/SunShineSummer.jpeg',
-    sentence: 'El sol brilla en un día de verano.',
-    pronunciation: 'SOHL',
-  },
-  {
-    id: '8',
-    english: 'Tree',
-    spanish: 'Árbol',
-    image: '/images/tree.svg',
-      situationImage: '/images/TreeUnderBlossoms.jpeg',
-    sentence: 'Nos sentamos bajo el árbol cuando hace calor.',
-    pronunciation: 'AHR-bohl',
-  },
-  {
-    id: '9',
-    english: 'Dog',
-    spanish: 'Perro',
-    image: '/images/dog.svg',
-      situationImage: '/images/HappyRunningBeachDog.jpeg',
-    sentence: 'El perro corre feliz por la playa.',
-    pronunciation: 'PEH-rroh',
-  },
-  {
-    id: '10',
-    english: 'Bread',
-    spanish: 'Pan',
-    image: '/images/bread.svg',
-      situationImage: '/images/BuyingFreshBread.jpeg',
-    sentence: 'Compré pan fresco en la panadería.',
-    pronunciation: 'PAHN',
-  },
-  {
-    id: '11',
-    english: 'Watch out',
-    spanish: 'Cuidado',
-    image: '/images/snowboard.jpg',
-    situationImage: '/images/SkiTrees.jpeg',
-    sentence: '¡Cuidado, Eduardo!',
-    pronunciation: 'koo-ee-DAH-doh',
-  },
-]
+// Fetch lesson cards from mock API (local JSON file)
 
 export default function DayTwo() {
-  const [currentCardIndex, setCurrentCardIndex] = useState(0)
-  const [lessonStarted, setLessonStarted] = useState(false)
-  const [lessonCompleted, setLessonCompleted] = useState(false)
+  const { cards, currentIndex, setCards, nextCard, prevCard } = useLessonStore()
+
+  React.useEffect(() => {
+    fetch('/src/mocks/lessonCards.json')
+      .then((res) => res.json())
+      .then((data: LingoCard[]) => setCards(data))
+      .catch(() => setCards([]))
+  }, [setCards])
+
+  if (!cards.length) return <div className="text-center p-8">Loading...</div>
+
+  return (
+    <div className="flex flex-col items-center justify-center min-h-screen">
+      <ImmersiveCard
+        card={cards[currentIndex]}
+        onNext={nextCard}
+        onBack={prevCard}
+        cardIndex={currentIndex}
+        totalCards={cards.length}
+      />
+    </div>
+  )
 
   const currentCard = LESSON_DATA[currentCardIndex]
 

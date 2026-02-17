@@ -1,7 +1,9 @@
 import React from 'react'
 import { Routes, Route } from 'react-router-dom'
+
 import Home from './pages/Home'
 import DayTwo from './pages/DayTwo'
+import Splash from './pages/Splash'
 import Header from './components/Header'
 
 export default function App() {
@@ -10,7 +12,8 @@ export default function App() {
       <Header />
       <main className="p-4">
         <Routes>
-          <Route path="/" element={<Home />} />
+          <Route path="/" element={<Splash />} />
+          <Route path="/home" element={<Home />} />
           <Route path="/day-two" element={<DayTwo />} />
         </Routes>
       </main>
