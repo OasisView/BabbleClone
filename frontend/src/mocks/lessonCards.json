@@ -74,20 +74,20 @@
   {
     "id": "9",
     "type": "immersive",
-    "visual_url": "/images/ChildWithDog.jpg",
+    "visual_url": "/images/HappyRunningBeachDog.jpeg",
     "audio_url": "",
     "target_text": "Perro",
     "english_bridge": "Dog",
-    "sentence": "El perro juega con el niño en el parque."
+    "sentence": "El perro corre feliz por la playa."
   },
   {
     "id": "10",
     "type": "immersive",
-    "visual_url": "/images/FamilyDinner.jpg",
+    "visual_url": "/images/BuyingFreshBread.jpeg",
     "audio_url": "",
-    "target_text": "Familia",
-    "english_bridge": "Family",
-    "sentence": "La familia cena junta cada noche."
+    "target_text": "Pan",
+    "english_bridge": "Bread",
+    "sentence": "Compré pan fresco en la panadería."
   },
   {
     "id": "11",

@@ -76,7 +76,45 @@ npx playwright test
 
 The included test uses `localStorage` to inject messages so it does not require a backend.
 
-Next steps you may want:
-- Add styling system (Tailwind or design tokens)
-- Add real chat state + websocket or API
-- Add auth flows and user onboarding
+---
+
+## Lesson Mock API
+
+The lesson cards are loaded from a local mock JSON file:
+- `src/mocks/lessonCards.json`
+
+This allows you to test the lesson flow without a backend. To update lesson content, edit this file.
+
+## Running the Frontend
+
+1. Install dependencies:
+   ```bash
+   cd frontend
+   npm install
+   ```
+2. Start the dev server:
+   ```bash
+   npm run dev
+   ```
+3. Open the URL shown in the terminal (usually http://localhost:5173 or higher).
+
+## Testing (Playwright E2E)
+
+To run end-to-end tests:
+```bash
+cd frontend
+npx playwright test
+```
+
+Tests are located in `src/tests/`. Make sure the dev server is running before executing tests.
+
+## Folder Structure
+- `src/pages/DayTwo.tsx`: Main lesson flow
+- `src/components/ImmersiveCard.tsx`: Card UI, animation, audio
+- `src/mocks/lessonCards.json`: Mock lesson data
+
+## Notes
+- The chat UI is hidden by default.
+- Backend integration is planned; for now, all lesson data is local.
+
+---

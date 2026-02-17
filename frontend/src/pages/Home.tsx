@@ -61,7 +61,7 @@ export default function Home() {
 
         <section className="mb-16">
           <h2 className="text-3xl font-bold text-gray-800 mb-8">Featured Lessons</h2>
-          <ChatSkeleton />
+          {/* ChatSkeleton hidden for now */}
         </section>
 
         <section className="bg-gradient-to-r from-orange-100 to-orange-50 rounded-2xl p-8 text-center border border-orange-200">
