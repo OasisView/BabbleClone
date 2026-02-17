@@ -36,12 +36,12 @@ export default function ImmersiveCard({
     // Reset state for new card
     setIsTextRevealed(false)
 
-    // speak immediately (word)
-    playAudio(card.spanish)
+    // speak immediately (prefer sentence when available)
+    playAudio(card.sentence || card.spanish)
 
     // speak again after 20s
     playAgainTimer = setTimeout(() => {
-      playAudio(card.spanish)
+      playAudio(card.sentence || card.spanish)
     }, 20000)
 
     // reveal after 30s (20s + 10s)

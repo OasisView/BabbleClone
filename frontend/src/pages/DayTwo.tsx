@@ -94,6 +94,15 @@ const LESSON_DATA: CardData[] = [
     sentence: 'Compré pan fresco en la panadería.',
     pronunciation: 'PAHN',
   },
+  {
+    id: '11',
+    english: 'Watch out',
+    spanish: 'Cuidado',
+    image: '/images/snowboard.jpg',
+    situationImage: '/images/snowboard.jpg',
+    sentence: '¡Cuidado, Eduardo!',
+    pronunciation: 'koo-ee-DAH-doh',
+  },
 ]
 
 export default function DayTwo() {
