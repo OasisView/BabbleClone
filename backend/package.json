@@ -3,20 +3,17 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js",
     "migrate": "node migrate.js"
   },
   "dependencies": {
-    "better-sqlite3": "^8.1.0"
-  }
-}
-{
-  "name": "babbelclone-backend",
-  "version": "0.1.0",
-  "private": true,
-  "scripts": {
-    "migrate": "node migrate.js"
+    "@supabase/supabase-js": "^2.95.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.0",
+    "express": "^4.21.0"
   },
-  "dependencies": {
-    "better-sqlite3": "^8.0.0"
+  "devDependencies": {
+    "nodemon": "^3.1.0"
   }
 }
