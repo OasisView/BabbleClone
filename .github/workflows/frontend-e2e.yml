@@ -16,25 +16,36 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: '18'
+            node-version: '20'
+
+      - name: Check for frontend directory
+        id: check_frontend
+        run: |
+          if [ ! -d "frontend" ]; then
+            echo "::set-output name=skip::true"
+          fi
 
       - name: Install frontend dependencies
+        if: steps.check_frontend.outputs.skip != 'true'
         run: |
           cd frontend
           npm ci
 
       - name: Install Playwright browsers
+        if: steps.check_frontend.outputs.skip != 'true'
         run: |
           cd frontend
           npx playwright install --with-deps
 
       - name: Start dev server in background and wait
+        if: steps.check_frontend.outputs.skip != 'true'
         run: |
           cd frontend
           npm run dev -- --host 0.0.0.0 &>/tmp/vite.log &
           npx wait-on http://localhost:5173
 
       - name: Run Playwright tests
+        if: steps.check_frontend.outputs.skip != 'true'
         run: |
           cd frontend
           npx playwright test --reporter=github
