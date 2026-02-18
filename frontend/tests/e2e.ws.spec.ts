@@ -9,7 +9,7 @@ test.describe('WS-backed E2E', () => {
 
   test.beforeAll(async () => {
     messages = [
-      { id: 'm1', author: 'Alice', text: 'Hello from Alice', ts: Date.now() - 60000 }
+      { id: 'm1', author: 'me', text: 'Hello from me', ts: Date.now() - 60000 }
     ]
 
     server = http.createServer((req, res) => {
@@ -72,13 +72,13 @@ test.describe('WS-backed E2E', () => {
     // Navigate to app (Playwright's webServer starts Vite)
     await page.goto('/')
 
-    // initial server message should be visible
-    await expect(page.getByText('Hello from Alice')).toBeVisible()
+    // initial server message should be visible (from 'me')
+    await expect(page.getByText('Hello from me')).toBeVisible()
 
     // send a message via UI
     const input = page.locator('input[placeholder="Type a message..."]')
     await input.fill('Automated test message')
-    await page.getByRole('button', { name: 'Send' }).click()
+    await page.getByRole('button', { name: /send/i }).click()
 
     // page should eventually show the sent message (broadcast from mock server)
     await expect(page.getByText('Automated test message')).toBeVisible({ timeout: 5000 })
