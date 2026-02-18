@@ -9,14 +9,3 @@
     "better-sqlite3": "^8.1.0"
   }
 }
-{
-  "name": "babbelclone-backend",
-  "version": "0.1.0",
-  "private": true,
-  "scripts": {
-    "migrate": "node migrate.js"
-  },
-  "dependencies": {
-    "better-sqlite3": "^8.0.0"
-  }
-}
