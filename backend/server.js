@@ -41,8 +41,8 @@ app.get('/api/units/:id', async (req, res) => {
     .select(`
       id, title, description, language,
       cards (
-        id, position, english, spanish, image,
-        pronunciation, sentence, situation_image
+        id, position, type, visual_url, audio_url,
+        target_text, english_bridge, grammar_note, sentence
       )
     `)
     .eq('id', id)
@@ -55,12 +55,13 @@ app.get('/api/units/:id', async (req, res) => {
 
   const cards = (unit.cards || []).map((c) => ({
     id: c.id,
-    english: c.english,
-    spanish: c.spanish,
-    image: c.image,
-    pronunciation: c.pronunciation,
+    type: c.type,
+    visual_url: c.visual_url,
+    audio_url: c.audio_url,
+    target_text: c.target_text,
+    english_bridge: c.english_bridge || undefined,
+    grammar_note: c.grammar_note || undefined,
     sentence: c.sentence || undefined,
-    situationImage: c.situation_image || undefined,
   }));
 
   res.json({
