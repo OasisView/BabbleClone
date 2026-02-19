@@ -10,11 +10,11 @@ test('navigates from splash to home to lesson', async ({ page }) => {
   await page.getByRole('button', { name: /Start Unit/i }).click()
   await expect(page).toHaveURL(/\/home/)
 
-  // Home page shows lesson list
-  await expect(page.getByText('Learn Spanish')).toBeVisible()
-  await expect(page.getByText('Vocabulary Lesson')).toBeVisible()
+  // Home page shows lesson heading and lesson card
+  await expect(page.getByRole('heading', { name: 'Learn Spanish' })).toBeVisible()
+  await expect(page.getByRole('heading', { name: 'Vocabulary Lesson' })).toBeVisible()
 
   // Click lesson card to go to day-two
-  await page.getByText('Vocabulary Lesson').click()
+  await page.getByRole('heading', { name: 'Vocabulary Lesson' }).click()
   await expect(page).toHaveURL(/\/day-two/)
 })
